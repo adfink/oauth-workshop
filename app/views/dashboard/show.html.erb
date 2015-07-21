@@ -14,7 +14,12 @@
   <li>uid for user : <%= current_user.uid %></li>
 </ul>
 
-
+<ul><% current_user.twitter_timeline.each do |tweet| %>
+    <li>
+      <p><%= distance_of_time_in_words(Time.now, tweet.created_at) %> ago, <%= tweet.user.screen_name %> said:</p>
+    </li>
+  <% end %>
+</ul>
 
 <body class="three-col logged-in user-style-finkafink enhanced-mini-profile supports-drag-and-drop" data-fouc-class-names="swift-loading" dir="ltr" cz-shortcut-listen="true" style="background-position: 0% 46px;">
 
@@ -159,7 +164,7 @@
             </li><li role="complementary" aria-labelledby="global-new-tweet-button" class="topbar-tweet-btn">
               <button id="global-new-tweet-button" type="button" class="js-global-new-tweet js-tooltip btn primary-btn tweet-btn js-dynamic-tooltip" data-placement="bottom" data-component-term="new_tweet_button">
                 <span class="Icon Icon--tweet Icon--large"></span>
-                <span class="text">Tweet</span>
+                <span class="text">"tweet"</span>
               </button>
             </li></ul></div>
 
@@ -181,12 +186,12 @@
 
 
             <a class="DashboardProfileCard-avatarLink u-inlineBlock" href="/finkafink" title="Drew Fink" tabindex="-1" aria-hidden="true">
-              <img class="DashboardProfileCard-avatarImage js-action-profile-avatar" src="https://pbs.twimg.com/profile_images/2323768076/twitter_bigger.jpg" alt="">
+              <img class="DashboardProfileCard-avatarImage js-action-profile-avatar" src="<%= current_user.profile_image_url %>" alt="">
             </a>
 
             <div class="DashboardProfileCard-userFields">
               <div class="DashboardProfileCard-name u-textTruncate">
-                <a class="u-textInheritColor" href="/finkafink">Drew Fink</a>
+                <a class="u-textInheritColor" href="/finkafink"><%= current_user.name %></a>
               </div>
         <span class="DashboardProfileCard-screenname u-inlineBlock u-dir" dir="ltr">
           <a class="DashboardProfileCard-screennameLink u-linkComplex u-linkClean" href="/finkafink">@<span class="u-linkComplex-target">finkafink</span></a>
@@ -244,7 +249,8 @@
                 <span class="visuallyhidden" id="tweet-box-home-timeline-label">Tweet text</span>
 
 
-                <div aria-labelledby="tweet-box-home-timeline-label" id="tweet-box-home-timeline" class="tweet-box rich-editor notie" contenteditable="true" spellcheck="true" role="textbox" aria-multiline="true" dir="ltr" aria-autocomplete="list" aria-expanded="false" aria-owns="typeahead-dropdown-4"><div><br></div></div>
+                <div aria-labelledby="tweet-box-home-timeline-label" id="tweet-box-home-timeline" class="tweet-box rich-editor notie" contenteditable="true" spellcheck="true" role="textbox" aria-multiline="true" dir="ltr" aria-autocomplete="list" aria-expanded="false" aria-owns="typeahead-dropdown-4">
+                  <div><br></div></div>
                 <div class="rich-normalizer"><div><br></div></div>
 
 
@@ -406,7 +412,7 @@
                   <button class="btn primary-btn tweet-action disabled tweet-btn js-tweet-btn" type="button" disabled="disabled">
   <span class="button-text tweeting-text">
     <span class="Icon Icon--tweet"></span>
-    Tweet
+    <%= button_to "tweeeet", post_tweet_path %>
   </span>
   <span class="button-text messaging-text">
     <span class="Icon Icon--dm Icon--small"></span>
@@ -435,8 +441,18 @@
           <div class="stream home-stream">
             <ol class="stream-items js-navigable-stream" id="stream-items-id">
 
+
+
+              <% current_user.twitter_timeline.each do |tweet| %>
+
+
+
+
+
+
+
               <li class="js-stream-item stream-item stream-item expanding-stream-item
-" data-item-id="623561335666675712" id="stream-item-tweet-623561335666675712" data-item-type="tweet">
+" data-item-id="623561335666675712" id="stream-item-tweet-<%= tweet.id %>" data-item-type="tweet">
 
 
 
@@ -445,24 +461,7 @@
                 <div class="tweet original-tweet js-stream-tweet js-actionable-tweet js-profile-popup-actionable js-original-tweet
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- with-user-actions
+                  with-user-actions
 
 
 
@@ -502,9 +501,9 @@
                     <div class="stream-item-header">
 
                       <a class="account-group js-account-group js-action-profile js-user-profile-link js-nav" href="/laurawp" data-user-id="28219278">
-                        <img class="avatar js-action-profile-avatar" src="https://pbs.twimg.com/profile_images/598255491865714688/Pvp0oH4-_bigger.jpg" alt="">
-                        <strong class="fullname js-action-profile-name show-popup-with-id" data-aria-label-part="">Laura Weidman Powers</strong>
-                        <span>&rlm;</span><span class="username js-action-profile-name" data-aria-label-part=""><s>@</s><b>laurawp</b></span>
+                        <img class="avatar js-action-profile-avatar" src="<%= tweet.user.profile_image_url %>" alt="">
+                        <strong class="fullname js-action-profile-name show-popup-with-id" data-aria-label-part=""><%= tweet.user.name %></strong>
+                        <span>&rlm;</span><span class="username js-action-profile-name" data-aria-label-part=""><s>@</s><b><%= tweet.user.screen_name %></b></span>
 
                       </a>
 
@@ -515,7 +514,7 @@
 
 
                     </div>
-                    <p class="TweetTextSize  js-tweet-text tweet-text" lang="en" data-aria-label-part="0">not up to relocate? idea early stage? how about the YC fellowship? they're aiming for diversity of founders + ideas
+                    <p class="TweetTextSize  js-tweet-text tweet-text" lang="en" data-aria-label-part="0"><%= tweet.text %>
                       <a href="http://t.co/ygeFbHRegb" rel="nofollow" dir="ltr" data-expanded-url="http://fellowship.ycombinator.com/" class="twitter-timeline-link" target="_blank" title="http://fellowship.ycombinator.com/"><span class="tco-ellipsis"></span><span class="invisible">http://</span><span class="js-display-url">fellowship.ycombinator.com</span><span class="invisible">/</span><span class="tco-ellipsis"><span class="invisible">&nbsp;</span></span></a></p>
                     <div class="stream-item-footer">
 
@@ -628,6 +627,7 @@
                   </div>
                 </div>
               </li>
+              <% end %>
             </ol>
             <div class="stream-footer">
               <div class="timeline-end has-items has-more-items">

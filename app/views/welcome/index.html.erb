@@ -3,6 +3,7 @@
 
 <% if current_user %>
   <p>hello, <%= current_user.name %></p>
+  <img class="DashboardProfileCard-avatarImage js-action-profile-avatar" src="<%= current_user.profile_image_url %>"></li>
   <%= link_to "logout", logout_path %>
   <%= link_to "my dashboard", dashboard_path(current_user) %>
   <ul><% current_user.twitter_timeline.each do |tweet| %>
@@ -11,6 +12,7 @@
        <p><%= tweet.text %></p>
       </li>
     <% end %>
+
   </ul>
 <% else %>
   <%= link_to "login", login_path %>

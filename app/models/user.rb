@@ -11,7 +11,8 @@ class User < ActiveRecord::Base
           uid: auth_info.extra.raw_info.user_id,
           # uid: auth_info.extra.raw_info.id_str,
           oauth_token: auth_info.credentials.token,
-          oauth_token_secret: auth_info.credentials.secret
+          oauth_token_secret: auth_info.credentials.secret,
+          profile_image_url: auth_info.extra.raw_info.profile_image_url
         })
     end
   end
@@ -25,6 +26,7 @@ class User < ActiveRecord::Base
       config.access_token_secret = self.oauth_token_secret
     end
   end
+
 
   def twitter_timeline
     twitter_client.home_timeline
