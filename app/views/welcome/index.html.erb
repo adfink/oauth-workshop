@@ -1,0 +1,18 @@
+<h1>Hi this is our site and here you are. You are on our site. That is all</h1>
+
+
+<% if current_user %>
+  <p>hello, <%= current_user.name %></p>
+  <%= link_to "logout", logout_path %>
+  <%= link_to "my dashboard", dashboard_path(current_user) %>
+  <ul><% current_user.twitter_timeline.each do |tweet| %>
+      <li>
+       <p><%= distance_of_time_in_words(Time.now, tweet.created_at) %> ago, <%= tweet.user.screen_name %> said:</p>
+       <p><%= tweet.text %></p>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <%= link_to "login", login_path %>
+<% end %>
+
