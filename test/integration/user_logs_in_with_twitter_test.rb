@@ -30,8 +30,8 @@ class UserLogsInWithTwitterTest < ActionDispatch::IntegrationTest
           }
         },
         credentials: {
-          token: "pizza",
-          secret: "secretpizza"
+          token: ENV["SAMPLE_OAUTH_TOKEN"],
+          secret: ENV["SAMPLE_OAUTH_TOKEN_SECRET"]
         }
       })
   end

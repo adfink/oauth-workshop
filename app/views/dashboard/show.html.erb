@@ -1,25 +1,21 @@
 
 
 
-
-
-<br><br><br><br><br>
-
-<h1>This is the relevant info form the API I want to populate the page with</h1>
-<ul>
-  <li>username : this is from the api</li>
+<br><br><br><br><br><br>
   <li><%= link_to "back to your welcome page", root_path %></li>
-  <li>username : <%= current_user.name %></li>
-  <li>screen name : <%= current_user.screen_name %></li>
-  <li>uid for user : <%= current_user.uid %></li>
-</ul>
 
-<ul><% current_user.twitter_timeline.each do |tweet| %>
-    <li>
-      <p><%= distance_of_time_in_words(Time.now, tweet.created_at) %> ago, <%= tweet.user.screen_name %> said:</p>
-    </li>
-  <% end %>
-</ul>
+
+
+<%= form_tag(tweets_path, method: "post") do %>
+  <%= label_tag(:text, "type your tweet here") %>
+  <%= text_field_tag(:text) %>
+  <%= submit_tag("post tweet") %>
+<% end %>
+
+
+
+
+
 
 <body class="three-col logged-in user-style-finkafink enhanced-mini-profile supports-drag-and-drop" data-fouc-class-names="swift-loading" dir="ltr" cz-shortcut-listen="true" style="background-position: 0% 46px;">
 
@@ -516,6 +512,11 @@
                     </div>
                     <p class="TweetTextSize  js-tweet-text tweet-text" lang="en" data-aria-label-part="0"><%= tweet.text %>
                       <a href="http://t.co/ygeFbHRegb" rel="nofollow" dir="ltr" data-expanded-url="http://fellowship.ycombinator.com/" class="twitter-timeline-link" target="_blank" title="http://fellowship.ycombinator.com/"><span class="tco-ellipsis"></span><span class="invisible">http://</span><span class="js-display-url">fellowship.ycombinator.com</span><span class="invisible">/</span><span class="tco-ellipsis"><span class="invisible">&nbsp;</span></span></a></p>
+
+                    <div>
+
+                      <%= link_to "favorite this tweet", tweet_path(:tweet_id => "#{tweet.id}"), method: :put %>
+                    </div>
                     <div class="stream-item-footer">
 
 

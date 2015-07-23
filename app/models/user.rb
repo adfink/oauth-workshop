@@ -29,6 +29,7 @@ class User < ActiveRecord::Base
 
 
   def twitter_timeline
+    # binding.pry
     twitter_client.home_timeline
   end
 
