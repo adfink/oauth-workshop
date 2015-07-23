@@ -2,16 +2,16 @@ class User < ActiveRecord::Base
 
   def self.from_omniauth(auth_info)
 
-    if user = find_by(uid: auth_info.user_id)
+    if user = find_by(uid: auth_info.uid)
       user
     else
       # binding.pry
       create({name: auth_info.extra.raw_info.name,
           screen_name: auth_info.extra.raw_info.screen_name,
-          uid: auth_info.user_id,
+          uid: auth_info.uid,
           oauth_token: auth_info.credentials.token,
           oauth_token_secret: auth_info.credentials.secret,
-          profile_image_url: auth_info.extra.raw_info.profile_image_url
+          profile_image_url: auth_info.profile_image_url
         })
     end
   end
